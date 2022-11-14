@@ -1,0 +1,22 @@
+header{
+    background: var(--main-color);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.search input{
+    width: 400px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    padding: 8px 15px;
+}
+nav{
+    display: flex;
+    gap: 30px;
+}
+.iconSearch{
+    position:relative;
+    right: 50px;
+}

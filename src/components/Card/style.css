@@ -1,0 +1,31 @@
+.card{
+    width: 250px;
+    height: 340px;
+    border: 1px solid yellow;
+    display: flex;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.add-favourite{
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    font-size: 30px;
+    font-weight: 700;
+}
+.card_img{
+    width: 220px;
+    height: 175px;
+    background: no-repeat center / contain ;
+    margin: 40px 0px;
+}
+.btn{
+    background-color: var(--main-color);
+    border-radius: 30px;
+    width: max-content;
+    position: relative;
+    bottom: 5px;
+    margin-top: 10px;
+}
