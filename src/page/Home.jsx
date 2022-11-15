@@ -22,10 +22,14 @@ export default() => {
     const [bests, setBests] =useState([]);
     const [token, setToken]=useState(localStorage.getItem('token'));
     const [api,setApi] = useState(new Api(token));
-    const [transform, setTransform] = useState(0);
+    // const [transform, setTransform] = useState(0);
     const [cnt1, setCnt1] = useState(1);
+    const [transform1, setTransform1] = useState(0);
     const [cnt2, setCnt2] = useState(1);
+    const [transform2, setTransform2] = useState(0);
     const [cnt3, setCnt3] = useState(1);
+    const [transform3, setTransform3] = useState(0);
+    let widthScreen;
     
    
 
@@ -65,6 +69,14 @@ export default() => {
     const marginCarousel ={
         margin: "20px 0px"
     }
+
+    if(window.screen.width>=1200){
+        widthScreen = 4;
+    }else if(window.screen.width>550 && window.screen.width<1200){
+        widthScreen = 2;
+    }else if(window.screen.width<=550){
+        widthScreen = 1;
+    }
     
     useEffect(() =>{
         api.getProducts()
@@ -96,23 +108,29 @@ export default() => {
     console.log("goods",goods,"\nbests", bests, "\n data", data );
 
 
-    // const mouveR =(goods) =>{
-    //     const [cnt, setCnt]=useState(1);
-    //     if( cnt <= goods.length / 4 ){
-    //         setCnt(cnt + 1);
-    //         setTransform(-(280 *4) * cnt)
-    //         console.log(cnt, transform);
-    //     }   
-    // }
 
-    // const mouveL =(goods) =>{
-    //     const [cnt, setCnt]=useState(1);
-    //     if( cnt !== 1 && goods.length !== 0){
-    //         setCnt(cnt - 1);
-    //         setTransform(transform + (280 *4))
-    //         console.log(cnt, transform);  
-    //     } 
-    // }
+
+    const mouveR =(d, trnsfrm) =>{
+        const [cnt, setCnt]= useState(1);
+        const [transform, setTransform] = useState(0);
+        if( cnt <= d.length / 4 ){
+            setCnt(cnt + 1);
+            setTransform(-(280 *4) * cnt)
+            trnsfrm = transform;
+            console.log(cnt, trnsfrm);
+        }
+    }
+
+    const mouveL =(d) =>{
+        const [cnt, setCnt]= useState(1);
+        const [transform, setTransform] = useState(0);
+        if( cnt !== 1 && d.length !== 0){
+            setCnt(cnt - 1);
+            setTransform(transform + (280 *4))
+            console.log(cnt, transform);  
+        } 
+        return transform;
+    }
    
 
     return <>
@@ -141,23 +159,24 @@ export default() => {
                 <h2>Хиты</h2>
             </Col>
             <Col md={6} xs={6} className="d-flex justify-content-end" >
-                <ArrowLeftCircle className="goods"  style={arrow} onClick={() => {
-                    if( cnt1 !== 1){
-                        setCnt1(cnt1 - 1 )
-                        setTransform(transform + (280 *4))
-                        console.log(cnt1, transform);  
-        }}}/>  
-                <ArrowRightCircle className="goods" style={arrow} onClick={
-                    () => {
+                <ArrowLeftCircle className="goods"  style={arrow} 
+                    onClick={() => {
+                        if( cnt1 !== 1 && goods.length !== 0){
+                            setCnt1(cnt1 - 1);
+                            setTransform1(transform1 + (280 * widthScreen))
+                        }
+                    }}/>
+                 
+                <ArrowRightCircle className="goods" style={arrow} 
+                    onClick={() =>{
                         if( cnt1 <= goods.length / 4 ){
-                            setCnt1( cnt1 + 1);
-                            setTransform(-(280 *4) * cnt1)
-                            console.log(cnt1, transform);
-                            }
-                        }}/>
+                            setCnt1(cnt1 + 1);
+                            setTransform1(-(280 * widthScreen) * cnt1)
+                        }
+                    }}/> 
             </Col>
             <Col md={12} xs={12} style={stCarousel}>
-                <Bestseller transform={transform} goods={goods} />
+                <Bestseller transform={transform1} goods={goods} />
             </Col>
             <Col md={6} xs={12} style={{borderRadius: "15px",  backgroundColor: `${clr[0]}`,boxSizing: "border-box"}}>
                 <AdvertisingMini text1={text1[0]} text2={text2[0]} 
@@ -171,23 +190,23 @@ export default() => {
                 <h2>Лакомства</h2>
             </Col>
             <Col md={6} xs={6} className="d-flex justify-content-end" style={marginCarousel}>
-             <ArrowLeftCircle className=" bests" style={arrow} onClick={() => {
-                    if( cnt2 !== 1){
-                        setCnt2(cnt2 - 1 )
-                        setTransform(transform + (280 *4))
-                        console.log(cnt2, transform);  
-                    }}}/>  
-            <ArrowRightCircle className=" bests" style={arrow} onClick={
-                    () => {
-                        if( cnt2 <= bests.length / 4 ){
-                            setCnt2( cnt2 + 1);
-                            setTransform(-(280 *4) * cnt2)
-                            console.log(cnt2, transform);
-                            }
-                        }}/>
+             <ArrowLeftCircle className=" bests" style={arrow} 
+                onClick={() => {
+                    if( cnt2 !== 1 && bests.length !== 0){
+                        setCnt2(cnt2 - 1);
+                        setTransform2(transform2 + (280 * widthScreen))
+                    }
+                }}/>
+            <ArrowRightCircle className=" bests" style={arrow} 
+                onClick={() =>{
+                    if( cnt2 <= bests.length / 4 ){
+                    setCnt2(cnt2 + 1);
+                    setTransform2(-(280 * widthScreen) * cnt2)
+                    console.log(cnt2, transform2);
+                }}}/> 
             </Col>
             <Col md={12} xs={12} style={stCarousel}>
-                <Goodies transform={transform} bests={bests} />
+                <Goodies transform={transform2} bests={bests} />
             </Col>
             <Col md={6} xs={12} style={{borderRadius: "15px", backgroundColor: `${clr[2]}`}}>
                 <AdvertisingMini text1={text1[2]} text2={text2[2] } 
@@ -201,28 +220,29 @@ export default() => {
                 <h2>Новости</h2>
             </Col>
             <Col md={6} xs={6} className="d-flex justify-content-end" style={marginCarousel}>
-                <ArrowLeftCircle className=" bests" style={arrow} onClick={() => {
-                    if( cnt3 !== 1){
-                        setCnt2(cnt3 - 1 )
-                        setTransform(transform + (280 *4))
-                        console.log(cnt3, transform);  
-                    }}}/>  
-                <ArrowRightCircle className=" bests" style={arrow} onClick={
-                    () => {
-                        if( cnt3 <= bests.length / 4 ){
-                            setCnt2( cnt3 + 1);
-                            setTransform(-(280 *4) * cnt3)
-                            console.log(cnt3, transform);
-                            }
-                        }}/>
+                <ArrowLeftCircle className=" bests" style={arrow} 
+                    onClick={() => {
+                        if( cnt3 !== 1 && data.length !== 0){
+                            setCnt3(cnt3 - 1);
+                            setTransform3(transform3 + (280 * widthScreen))
+                        }
+                    }}/>
+                <ArrowRightCircle className=" bests" style={arrow} 
+                    onClick={() =>{
+                        if( cnt3 <= data.length / 4 ){
+                        setCnt3(cnt3 + 1);
+                        setTransform3(-(280 * widthScreen) * cnt3)
+                        console.log(cnt3, transform3);
+                    }}}/> 
+            </Col>
+            <Col md={12} xs={12} style={stCarousel}>
+                <Blog transform={transform3} data={data} />
             </Col>
             <Col md={12} xs={12} style={{borderRadius: "15px", backgroundColor: "#ff9027"}}>
                 <Advertising />
             </Col>
             
-            <Col md={12} xs={12} style={stCarousel}>
-                <Blog transform={transform} data={data} />
-            </Col>
+            
         </Row>
     </Container>
     <Footer/>

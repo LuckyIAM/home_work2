@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import BlogCard from "../BlogCard";
+import dataBlog from "../../assets/dataBlog.json"
 
 export default ({data,transform}) =>{
     
@@ -19,10 +20,10 @@ export default ({data,transform}) =>{
     return(
                   
         <div className="bestseller-box" style={st}>
-            {data.map((d,i) => 
+            {dataBlog.map((d,i) => 
                     <BlogCard   
                     img={d.image}
-                    data_publication={new Date(d.created_at).getFullYear()}
+                    data_publication={d.created_at}
                     title={d.title}
                     key={i}
                     />
