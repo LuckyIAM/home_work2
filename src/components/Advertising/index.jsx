@@ -15,7 +15,7 @@ export default () =>{
     }
     return(
     <Container>
-        <Row style={{"border-radius":"15px"}}>
+        <Row style={{borderRadius:"15px", backgroundColor: "#ff9027", padding: "20px", marginBottom: "20px"}}>
             <Col md={6} xs={6} style={st1}>
                 <h1>Подарок за<br/>первый заказ! </h1>
                 <p>Легкое говяжье - пластины</p>

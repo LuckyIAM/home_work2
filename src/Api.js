@@ -14,5 +14,16 @@ class Api {
                 
         )
     }
+    getBlog(){
+        return(
+            fetch("https://api.react-learning.ru/v2/group-7/posts", {
+                headers:{
+                    authorization: `Bearer ${this.token}`,
+                    "Content-Type": "application/json"
+                }
+            })
+                
+        )
+    }
 }
 export default Api;
