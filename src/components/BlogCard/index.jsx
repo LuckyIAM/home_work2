@@ -14,7 +14,7 @@ const BlogCard = ({img, data_publication, title}) =>{
     return<>
     <div className="card">
         <div className="card_img" style={cardStyle}></div>
-        <div className="data_publication">{data_publication}</div>
+        <div className="data_publication"><small>{data_publication}</small></div>
         <div className="title">{title}</div>
     </div>
     </> 

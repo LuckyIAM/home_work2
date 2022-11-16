@@ -13,6 +13,9 @@ import Bestseller from "../components/Bestseller";
 import Goodies from "../components/Goodies";
 import Blog from "../components/Blog";
 import { ArrowLeftCircle, ArrowRightCircle } from "react-bootstrap-icons";
+import dataBlog from "../assets/dataBlog.json"
+import dataFavourit from "../assets/dataFavourit.json"
+import YouWatched from "../components/YouWatched";
 
 
 
@@ -29,6 +32,8 @@ export default() => {
     const [transform2, setTransform2] = useState(0);
     const [cnt3, setCnt3] = useState(1);
     const [transform3, setTransform3] = useState(0);
+    const [cnt4, setCnt4] = useState(1);
+    const [transform4, setTransform4] = useState(0);
     let widthScreen;
     
    
@@ -97,41 +102,11 @@ export default() => {
                   })
                 ) ;
             })
-        api.getBlog()
-            .then(result => result.json())
-            .then(data => setData(data))
         
     }, [api])
 
-    
-    
+  
     console.log("goods",goods,"\nbests", bests, "\n data", data );
-
-
-
-
-    const mouveR =(d, trnsfrm) =>{
-        const [cnt, setCnt]= useState(1);
-        const [transform, setTransform] = useState(0);
-        if( cnt <= d.length / 4 ){
-            setCnt(cnt + 1);
-            setTransform(-(280 *4) * cnt)
-            trnsfrm = transform;
-            console.log(cnt, trnsfrm);
-        }
-    }
-
-    const mouveL =(d) =>{
-        const [cnt, setCnt]= useState(1);
-        const [transform, setTransform] = useState(0);
-        if( cnt !== 1 && d.length !== 0){
-            setCnt(cnt - 1);
-            setTransform(transform + (280 *4))
-            console.log(cnt, transform);  
-        } 
-        return transform;
-    }
-   
 
     return <>
     <Header/>
@@ -169,7 +144,7 @@ export default() => {
                  
                 <ArrowRightCircle className="goods" style={arrow} 
                     onClick={() =>{
-                        if( cnt1 <= goods.length / 4 ){
+                        if( cnt1 <= goods.length / widthScreen ){
                             setCnt1(cnt1 + 1);
                             setTransform1(-(280 * widthScreen) * cnt1)
                         }
@@ -178,11 +153,11 @@ export default() => {
             <Col md={12} xs={12} style={stCarousel}>
                 <Bestseller transform={transform1} goods={goods} />
             </Col>
-            <Col md={6} xs={12} style={{borderRadius: "15px",  backgroundColor: `${clr[0]}`,boxSizing: "border-box"}}>
+            <Col md={6} xs={12} >
                 <AdvertisingMini text1={text1[0]} text2={text2[0]} 
                 text3={text3[0]} img={set} color={clr[0]} />
             </Col>
-            <Col md={6} xs={12} style={{borderRadius: "15px", backgroundColor: `${clr[1]}`}}>
+            <Col md={6} xs={12}>
                 <AdvertisingMini text1={text1[1]} text2={text2[1]} 
                 text3={text3[1]} img={oil} color={clr[1]}/>
             </Col>
@@ -199,7 +174,7 @@ export default() => {
                 }}/>
             <ArrowRightCircle className=" bests" style={arrow} 
                 onClick={() =>{
-                    if( cnt2 <= bests.length / 4 ){
+                    if( cnt2 <= bests.length / widthScreen ){
                     setCnt2(cnt2 + 1);
                     setTransform2(-(280 * widthScreen) * cnt2)
                     console.log(cnt2, transform2);
@@ -208,11 +183,11 @@ export default() => {
             <Col md={12} xs={12} style={stCarousel}>
                 <Goodies transform={transform2} bests={bests} />
             </Col>
-            <Col md={6} xs={12} style={{borderRadius: "15px", backgroundColor: `${clr[2]}`}}>
+            <Col md={6} xs={12}>
                 <AdvertisingMini text1={text1[2]} text2={text2[2] } 
                 text3={text3[1]} img={corn} color={clr[2]}/>
             </Col>
-            <Col md={6} xs={12} style={{borderRadius: "15px", backgroundColor: `${clr[3]}`}}>
+            <Col md={6} xs={12}>
                 <AdvertisingMini text1={text1[3]} text2={text2[3]} 
                 text3={text3[1]} img={neck} color={clr[3]}/>
             </Col>
@@ -222,27 +197,47 @@ export default() => {
             <Col md={6} xs={6} className="d-flex justify-content-end" style={marginCarousel}>
                 <ArrowLeftCircle className=" bests" style={arrow} 
                     onClick={() => {
-                        if( cnt3 !== 1 && data.length !== 0){
+                        if( cnt3 !== 1 && dataBlog.length !== 0){
                             setCnt3(cnt3 - 1);
                             setTransform3(transform3 + (280 * widthScreen))
                         }
                     }}/>
                 <ArrowRightCircle className=" bests" style={arrow} 
                     onClick={() =>{
-                        if( cnt3 <= data.length / 4 ){
+                        if( cnt3 <= dataBlog.length / widthScreen ){
                         setCnt3(cnt3 + 1);
                         setTransform3(-(280 * widthScreen) * cnt3)
                         console.log(cnt3, transform3);
                     }}}/> 
             </Col>
             <Col md={12} xs={12} style={stCarousel}>
-                <Blog transform={transform3} data={data} />
+                <Blog transform={transform3} data={dataBlog} />
             </Col>
             <Col md={12} xs={12} style={{borderRadius: "15px", backgroundColor: "#ff9027"}}>
                 <Advertising />
             </Col>
-            
-            
+            <Col md={6} xs={6} style={marginCarousel}>
+                <h2>Вы смотрели</h2>
+            </Col>
+            <Col md={6} xs={6} className="d-flex justify-content-end" style={marginCarousel}>
+                <ArrowLeftCircle className="youWatched" style={arrow} 
+                    onClick={() => {
+                        if( cnt4 !== 1 && dataFavourit.length !== 0){
+                            setCnt4(cnt4 - 1);
+                            setTransform4(transform4 + (280 * widthScreen))
+                        }
+                    }}/>
+                <ArrowRightCircle className="youWatched" style={arrow} 
+                    onClick={() =>{
+                        if( cnt4 <= dataFavourit.length / widthScreen ){
+                        setCnt4(cnt4 + 1);
+                        setTransform4(-(280 * widthScreen) * cnt4)
+                        console.log(cnt4, transform4);
+                    }}}/> 
+            </Col>
+            <Col md={12} xs={12} style={stCarousel}>
+                <YouWatched transform={transform4} data={dataFavourit} />
+            </Col>
         </Row>
     </Container>
     <Footer/>
